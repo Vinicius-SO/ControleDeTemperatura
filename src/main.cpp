@@ -6,11 +6,11 @@
 #define menu_4 4
 #define menu_5 5
 
-#define ledMenu_1 3
-#define ledMenu_2 4
-#define ledMenu_3 5
-#define ledMenu_4 6
-#define ledMenu_5 7
+// #define ledMenu_1 3
+// #define ledMenu_2 4
+// #define ledMenu_3 5
+// #define ledMenu_4 6
+// #define ledMenu_5 7
 
 #define selectMenuButton 12
 
@@ -31,44 +31,37 @@ void incrementMenu(){
   switch (menu)
   {
     case menu_1 :
-      digitalWrite(ledMenu_1, HIGH);
+      PORTD = B00001000;
       Serial.println("Menu 1 acessado");
       break;
 
     case menu_2 :
-      digitalWrite(ledMenu_2, HIGH);
-      digitalWrite(ledMenu_1, LOW);
+      PORTD = B00010000;
       Serial.println("Menu 2 acessado");
       break;
     
     case menu_3 :
-      digitalWrite(ledMenu_3, HIGH);
-      digitalWrite(ledMenu_2, LOW);
+      PORTD= B00100000;
       Serial.println("Menu 3 acessado");
       break;
      
     case menu_4 :  
-      digitalWrite(ledMenu_4, HIGH);
-      digitalWrite(ledMenu_3, LOW);
+      PORTD= B01000000;
       Serial.println("Menu 4 acessado");
       break;
     
     case menu_5 :
-      digitalWrite(ledMenu_5, HIGH);
-      digitalWrite(ledMenu_4, LOW);
+      PORTD= B10000000;
       Serial.println("Menu 5 acessado");
       break;
   
     default:
       Serial.println("Reset menu, temperature off");
-      digitalWrite(ledMenu_1, LOW);
-      digitalWrite(ledMenu_2, LOW);
-      digitalWrite(ledMenu_3, LOW);
-      digitalWrite(ledMenu_4, LOW);
-      digitalWrite(ledMenu_5, LOW);
+      PORTD= B00000000;
 
       break;
   }
+  delay(200);
 }
 
 void setup() {
@@ -76,12 +69,8 @@ void setup() {
   //Inicia a serial para 9600 
   Serial.begin(9600);
 
-  //Define os leds de que representarão o menu como saída
-  pinMode(ledMenu_1, OUTPUT);
-  pinMode(ledMenu_2, OUTPUT);
-  pinMode(ledMenu_3, OUTPUT);
-  pinMode(ledMenu_4, OUTPUT);
-  pinMode(ledMenu_5, OUTPUT);
+  //Define os leds de que representarão o menu, como saída
+  DDRD = B11111111;
   
   //Define o pino de entrada dobotão
   pinMode(selectMenuButton, INPUT);
@@ -92,7 +81,5 @@ void loop() {
   if(digitalRead(selectMenuButton)){
   	incrementMenu();
   }
-  delay(400);
-
 
 }
