@@ -12,21 +12,12 @@
 // #define ledMenu_4 6
 // #define ledMenu_5 7
 
-#define selectMenuButton 12
+#define selectSubtractButton 13
+#define selectAddButton 12
 
 int menu = 0;
 
-
-void incrementMenu(){
-  
-  //Verificação responsável por incrementar o menu e resetar ele apóschegar ao ultimo 
-  if (menu <=4)
-  {
-    menu++;
-  }else{
-    menu=0;
-  }
-  
+void atualizateMenu(){
   //Switch case responsavel por ligar os leds conforme o menu selecionado
   switch (menu)
   {
@@ -64,6 +55,33 @@ void incrementMenu(){
   delay(200);
 }
 
+
+void incrementMenu(){
+  
+  //Verificação responsável por incrementar o menu e resetar ele apóschegar ao ultimo 
+  if (menu <=4)
+  {
+    menu++;
+  }else{
+    menu=0;
+  }
+  
+  atualizateMenu();
+  
+}
+
+void decrementMenu(){
+  
+  //Verificação responsável por decrementar o menus
+  if (menu >=1)
+  {
+    menu--;
+  }
+  
+  atualizateMenu();
+  
+}
+
 void setup() {
 
   //Inicia a serial para 9600 
@@ -73,13 +91,17 @@ void setup() {
   DDRD = B11111111;
   
   //Define o pino de entrada dobotão
-  pinMode(selectMenuButton, INPUT);
+  pinMode(selectSubtractButton, INPUT);
+  pinMode(selectAddButton, INPUT);
 }
 
 void loop() {
 
-  if(digitalRead(selectMenuButton)){
+  if(digitalRead(selectAddButton)){
   	incrementMenu();
+  }else if(digitalRead(selectSubtractButton)){
+    decrementMenu();
   }
+
 
 }
