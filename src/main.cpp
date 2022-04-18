@@ -12,10 +12,14 @@
 // #define ledMenu_4 6
 // #define ledMenu_5 7
 
+#define Cooler 10
+
 #define selectSubtractButton 13
 #define selectAddButton 12
+#define turnOnCooler 11
 
 int menu = 0;
+bool ligaCooler = false;
 
 void atualizateMenu(){
   //Switch case responsavel por ligar os leds conforme o menu selecionado
@@ -62,10 +66,7 @@ void incrementMenu(){
   if (menu <=4)
   {
     menu++;
-  }else{
-    menu=0;
   }
-  
   atualizateMenu();
   
 }
@@ -77,7 +78,6 @@ void decrementMenu(){
   {
     menu--;
   }
-  
   atualizateMenu();
   
 }
@@ -93,6 +93,9 @@ void setup() {
   //Define o pino de entrada dobotão
   pinMode(selectSubtractButton, INPUT);
   pinMode(selectAddButton, INPUT);
+  pinMode(turnOnCooler,INPUT);
+
+  pinMode(Cooler,OUTPUT);
 }
 
 void loop() {
@@ -103,5 +106,15 @@ void loop() {
     decrementMenu();
   }
 
+  if(digitalRead(turnOnCooler)){
+    ligaCooler = !ligaCooler;
+    digitalWrite(Cooler, ligaCooler);
+    if(ligaCooler){
+      Serial.println('Cooler Ligado');
+    }else{
+      Serial.println('Cooler Desligado');
+    }
+    delay(200);
+  }
 
 }
